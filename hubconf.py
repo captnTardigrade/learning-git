@@ -8,6 +8,9 @@ from torchvision.transforms import ToTensor
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using {device} device")
 
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
+
 classes = [
     "T-shirt/top",
     "Trouser",
@@ -24,14 +27,16 @@ classes = [
 # Define model
 class NeuralNetwork(nn.Module):
     def __init__(self):
-        super(NeuralNetwork, self).__init__()
+        super().__init__()
         self.flatten = nn.Flatten()
         self.linear_relu_stack = nn.Sequential(
-            nn.Linear(28*28, 512),
+            nn.Linear(28 * 28, 648),
             nn.ReLU(),
-            nn.Linear(512, 512),
+            nn.Linear(648, 512),
             nn.ReLU(),
-            nn.Linear(512, 10)
+            nn.Linear(512, 480),
+            nn.ReLU(),
+            nn.Linear(480, 10)
         )
 
     def forward(self, x):
@@ -40,12 +45,6 @@ class NeuralNetwork(nn.Module):
         return logits
 
 #############################
-
-def get_lossfn_and_optimizer(model):
-    loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
-    return loss_fn, optimizer
-
 
 def load_data():
 
