@@ -91,6 +91,12 @@ def get_model():
 
     return model
 
+def get_lossfn_and_optimizer(model: NeuralNetwork):
+    loss_fn = nn.NLLLoss()
+    optimizer = torch.optim.Adam(model.parameters(), 1e-4)
+
+    return loss_fn, optimizer
+
 
 def _train(dataloader, model, loss_fn=loss_fn, optimizer=optimizer):
     size = len(dataloader.dataset)
