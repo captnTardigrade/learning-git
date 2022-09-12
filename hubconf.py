@@ -8,9 +8,6 @@ from torchvision.transforms import ToTensor
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using {device} device")
 
-loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
-
 classes = [
     "T-shirt/top",
     "Trouser",
@@ -43,6 +40,11 @@ class NeuralNetwork(nn.Module):
         x = self.flatten(x)
         logits = self.linear_relu_stack(x)
         return logits
+
+
+model = NeuralNetwork()
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
+loss_fn = nn.NLLLoss()
 
 #############################
 
@@ -127,8 +129,8 @@ def _test(dataloader, model, loss_fn=loss_fn):
 def train(train_dataloader, test_dataloader, epochs=5):
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
-        train(train_dataloader, model, loss_fn, optimizer)
-        test(test_dataloader, model, loss_fn)
+        _train(train_dataloader, model, loss_fn, optimizer)
+        _test(test_dataloader, model, loss_fn)
     print("Done!")
 
 def save_model(mypath="model.pth"):
@@ -147,7 +149,3 @@ def sample_test(model, test_data):
         pred = model(x)
         predicted, actual = classes[pred[0].argmax(0)], classes[y]
         print(f'Predicted: "{predicted}", Actual: "{actual}"')
-        
-        
-        
-    
