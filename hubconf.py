@@ -91,9 +91,9 @@ def get_model():
 
     return model
 
-def get_lossfn_and_optimizer(model: NeuralNetwork):
+def get_lossfn_and_optimizer(model1: NeuralNetwork):
     loss_fn = nn.NLLLoss()
-    optimizer = torch.optim.Adam(model.parameters(), 1e-4)
+    optimizer = torch.optim.Adam(model1.parameters(), 1e-4)
 
     return loss_fn, optimizer
 
