@@ -141,12 +141,13 @@ def train(train_dataloader, test_dataloader, model1, epochs=5):
     return model1
 
 def save_model(mypath="model.pth"):
-    torch.save(model.state_dict(), "model.pth")
-    print("Saved PyTorch Model State to model.pth")
+    torch.save(model.state_dict(), mypath)
+    print(f"Saved PyTorch Model State to {mypath}")
 
 def load_model(mypath="model.pth"):
     model = NeuralNetwork()
-    model.load_state_dict(torch.load("model.pth"))
+    model.load_state_dict(torch.load(mypath))
+    return model
 
 
 def sample_test(model, test_data):
